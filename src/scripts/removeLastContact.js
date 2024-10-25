@@ -7,7 +7,7 @@ export const removeLastContact = async () => {
     const arrLength = await countContacts()
     if (arrLength > 0) {        
         const contacts = await getAllContacts()
-        await writeContacts(JSON.parse(contacts).slice(0, -1))
+        await writeContacts(contacts.slice(0, -1))
     }
     else {
         console.log('no contacts');

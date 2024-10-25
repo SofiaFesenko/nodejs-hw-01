@@ -4,7 +4,7 @@ import { writeContacts } from "../utils/writeContacts.js";
 
 const addOneContact = async () => {
     const previousData = await readContacts()
-    const existingContacts = previousData ? JSON.parse(previousData) : [];
+    const existingContacts = previousData ? previousData : [];
     const newData = []
     newData.push(createFakeContact())
     await writeContacts([...existingContacts, ...newData])

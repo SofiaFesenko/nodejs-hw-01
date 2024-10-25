@@ -1,8 +1,9 @@
-import { getAllContacts } from './getAllContacts.js';
+import { readContacts } from '../utils/readContacts.js';
 
 export const countContacts = async () => {
-    const data = await getAllContacts()
-    return JSON.parse(data).length
+    const data = await readContacts()
+    return data.length
 };
 
-console.log(await countContacts());
+const data = await countContacts()
+console.log(data);
