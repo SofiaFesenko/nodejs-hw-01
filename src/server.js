@@ -4,37 +4,42 @@ import pino from 'pino-http';
 import pretty from "pino-pretty";
 import cors from 'cors';
 
-import contactsRouter from './routes/contacts.js'
+import router from './routes/index.js'
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import cookieParser from 'cookie-parser';
 
 dotenv.config()
 const PORT = Number(process.env.PORT);
 
 export function setupServer() {
-    const app = express()
+  const app = express()
 
-    app.use(
-        pino({
-          transport: {
-            target: 'pino-pretty',
-          },
-        }),
-    );
+  app.use(express.json())
+  app.use(cors())
+  app.use(cookieParser())
 
-    app.get('/', (req, res) => {
-        res.json({
-          message: 'Hello World!',
-        });
-    });
+  app.use(
+      pino({
+        transport: {
+          target: 'pino-pretty',
+        },
+      }),
+  );
 
-    app.use(contactsRouter)
+  app.get('/', (req, res) => {
+      res.json({
+        message: 'Hello World!',
+      });
+  });
 
-    app.use('*', notFoundHandler)
+  app.use(router)
 
-    app.use(errorHandler);
+  app.use('*', notFoundHandler)
 
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`)
-    })
+  app.use(errorHandler);
+
+  app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`)
+  })
 }
