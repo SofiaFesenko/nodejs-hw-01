@@ -1,9 +1,10 @@
 import createHttpError from "http-errors"
-import { ROLES } from "../constants"
-import { ContactsCollection } from "../db/models/contacts"
+import { ROLES } from "../constants/index.js"
+import { ContactsCollection } from "../db/models/contacts.js"
 
 export const checkRole = (...roles) => {
-    async (req, res, next) => {
+    return async (req, res, next) => {
+        
         const { user } = req
         if (!user) {
             throw createHttpError(401)
@@ -13,7 +14,8 @@ export const checkRole = (...roles) => {
         if (roles.includes(ROLES.USER) && role === ROLES.USER) {
             const { contactId } = req.params
             if (!contactId) {
-                throw createHttpError(403)
+                next(createHttpError(403))
+                return
             }
 
             const contact = await ContactsCollection.findOne({
@@ -26,6 +28,6 @@ export const checkRole = (...roles) => {
                 return
             }
         }
-        throw createHttpError(403)
+        next(createHttpError(403))
     }
 }
