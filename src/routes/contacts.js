@@ -8,6 +8,7 @@ import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { checkRole } from '../middlewares/checkRole.js';
 import { ROLES } from '../constants/index.js';
+import { upload } from '../middlewares/upload.js';
 
 const router = Router();
 
@@ -17,8 +18,8 @@ router.use(authenticate)
 
 router.get('/', ctrlWrapper(getAllContactsController))
 router.get('/:contactId', isValidId, checkRole(ROLES.USER), ctrlWrapper(getContactByIdController))
-router.post('/', jsonParser, validateBody(createContactSchema), ctrlWrapper(createContactController))
-router.patch('/:contactId', isValidId, jsonParser, checkRole(ROLES.USER), validateBody(updateContactSchema), ctrlWrapper(patchContactController))
+router.post('/', jsonParser, upload.single('photo'), validateBody(createContactSchema), ctrlWrapper(createContactController))
+router.patch('/:contactId', upload.single('photo'), isValidId, jsonParser, checkRole(ROLES.USER), validateBody(updateContactSchema), ctrlWrapper(patchContactController))
 router.delete('/:contactId', isValidId, jsonParser, checkRole(ROLES.USER), ctrlWrapper(deleteContactController));
 
 

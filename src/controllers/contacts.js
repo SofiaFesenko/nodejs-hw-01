@@ -2,6 +2,8 @@ import { createContact, deleteContact, getAllContacts, getContactById, patchCont
 import createHttpError from 'http-errors';
 import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
+import fs from 'node:fs/promises'
 
 export const getAllContactsController = async (req, res) => {
     const { page, perPage } = parsePaginationParams(req.query);
@@ -44,7 +46,31 @@ export const getContactByIdController = async (req, res) => {
 }
 
 export const createContactController = async (req, res) => {
-    const contactData = await createContact(req.body, req.user._id)
+    let photo = null
+
+    if (typeof req.file !== 'undefined') {
+        if (process.env.ENABLE_CLOUDINARY == 'true') {
+            const result = await uploadToCloudinary(req.file.path)
+            await fs.unlink(req.file.path)
+            photo = result.secure_url
+        } 
+        else {
+            await fs.rename(req.file.path, path.resolve('src', 'public/photos', req.file.filename))
+            photo = `http://localhost:3000/photos/${req.file.filename}`
+        }        
+    }
+
+    const contact = {
+        name: req.body.name,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
+        isFavourite: req.body.isFavourite,
+        contactType: req.body.contactType,
+        userId: req.user._id,
+        photo
+    }
+
+    const contactData = await createContact(contact)
 
     res.status(201).json({
         status: 201,
@@ -56,6 +82,20 @@ export const createContactController = async (req, res) => {
 export const patchContactController = async (req, res, next) => {
     const {contactId} = req.params
     const { _id: userId } = req.user
+
+    let photo = null
+
+    if (typeof req.file !== 'undefined') {
+        if (process.env.ENABLE_CLOUDINARY == 'true') {
+            const result = await uploadToCloudinary(req.file.path)
+            await fs.unlink(req.file.path)
+            photo = result.secure_url
+        } 
+        else {
+            await fs.rename(req.file.path, path.resolve('src', 'public/photos', req.file.filename))
+            photo = `http://localhost:3000/photos/${req.file.filename}`
+        }        
+    }
     
     const { name, phoneNUmber, email, isFavourite, contactType } = req.body
 
@@ -66,7 +106,8 @@ export const patchContactController = async (req, res, next) => {
             phoneNUmber, 
             email, 
             isFavourite, 
-            contactType
+            contactType,
+            photo
         },
         { new: true }
     )

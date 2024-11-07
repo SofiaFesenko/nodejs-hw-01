@@ -3,6 +3,7 @@ import express from 'express';
 import pino from 'pino-http';
 import pretty from "pino-pretty";
 import cors from 'cors';
+import path from 'node:path'
 
 import router from './routes/index.js'
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -32,6 +33,8 @@ export function setupServer() {
         message: 'Hello World!',
       });
   });
+
+  app.use("/photos", express.static(path.resolve("src", "public/photos")))
 
   app.use(router)
 
