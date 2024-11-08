@@ -48,7 +48,7 @@ export const patchContact = async ({_id: contactId, userId}, payload, options = 
     if (!result) return null;
 
     return {
-        contact: result.value,
+        contact: result,
         isNew: Boolean(result?.lastErrorObject?.upserted),
     };
 }
