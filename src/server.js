@@ -9,6 +9,7 @@ import router from './routes/index.js'
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 dotenv.config()
 const PORT = Number(process.env.PORT);
@@ -35,6 +36,8 @@ export function setupServer() {
   });
 
   app.use("/photos", express.static(path.resolve("src", "public/photos")))
+
+  app.use('/api-docs', swaggerDocs())
 
   app.use(router)
 
