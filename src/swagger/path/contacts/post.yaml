@@ -26,6 +26,8 @@ requestBody:
           email:
             description: "contact's email"
             type: string
+            example: 'john@example.com'
+            nullable: true
           isFavourite:
             description: 'Whether is contact favourite'
             type: boolean
@@ -34,13 +36,11 @@ requestBody:
             description: "contact type"
             type: string
             enum: ['work', 'home', 'personal']
-          userId:
-            description: "contact's user id"
-            type: string
-            example: 65e4decdd286b30065d54af9
           photo:
             description: "Link to contact's photo"
-            type: binary
+            type: string
+            format: binary
+            nullable: true
 responses:
   '201':
     description: Creates a contact

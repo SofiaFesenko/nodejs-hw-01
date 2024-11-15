@@ -11,6 +11,9 @@
   },
   "servers": [
     {
+      "url": "http://localhost:3000"
+    },
+    {
       "url": "https://nodejs-hw-4szr.onrender.com"
     }
   ],
@@ -183,7 +186,9 @@
                   },
                   "email": {
                     "description": "contact's email",
-                    "type": "string"
+                    "type": "string",
+                    "example": "john@example.com",
+                    "nullable": true
                   },
                   "isFavourite": {
                     "description": "Whether is contact favourite",
@@ -199,14 +204,11 @@
                       "personal"
                     ]
                   },
-                  "userId": {
-                    "description": "contact's user id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
-                  },
                   "photo": {
                     "description": "Link to contact's photo",
-                    "type": "binary"
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
                   }
                 }
               }
