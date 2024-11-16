@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://nodejs-hw-4szr.onrender.com"
+      "url": "http://localhost:3000"
     }
   ],
   "tags": [
@@ -322,7 +322,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "_id",
+            "name": "id",
             "required": true,
             "schema": {
               "type": "string",
@@ -339,21 +339,25 @@
                   "name": {
                     "description": "contact's name",
                     "type": "string",
-                    "example": "John Doe"
+                    "example": "John Doe",
+                    "nullable": true
                   },
                   "phoneNumber": {
                     "description": "contact's phone number",
                     "type": "string",
-                    "example": "+380000000007"
+                    "example": "+380000000007",
+                    "nullable": true
                   },
                   "email": {
                     "description": "contact's email",
-                    "type": "string"
+                    "type": "string",
+                    "nullable": true
                   },
                   "isFavourite": {
                     "description": "Whether is contact favourite",
                     "type": "boolean",
-                    "example": false
+                    "example": false,
+                    "nullable": true
                   },
                   "contactType": {
                     "description": "contact type",
@@ -362,16 +366,14 @@
                       "work",
                       "home",
                       "personal"
-                    ]
-                  },
-                  "userId": {
-                    "description": "contact's user id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
+                    ],
+                    "nullable": true
                   },
                   "photo": {
                     "description": "Link to contact's photo",
-                    "type": "binary"
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
                   }
                 }
               }
@@ -428,7 +430,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "_id",
+            "name": "id",
             "required": true,
             "schema": {
               "type": "string",

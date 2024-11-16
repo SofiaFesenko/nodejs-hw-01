@@ -7,7 +7,7 @@ security:
   - bearerAuth: []
 parameters:
   - in: path
-    name: _id
+    name: id
     required: true
     schema:
       type: string
@@ -22,28 +22,31 @@ requestBody:
             description: "contact's name"
             type: string
             example: 'John Doe'
+            nullable: true
           phoneNumber:
             description: "contact's phone number"
             type: string
             example: '+380000000007'
+            nullable: true
           email:
             description: "contact's email"
             type: string
+            nullable: true
           isFavourite:
             description: 'Whether is contact favourite'
             type: boolean
             example: false
+            nullable: true
           contactType:
             description: "contact type"
             type: string
             enum: ['work', 'home', 'personal']
-          userId:
-            description: "contact's user id"
-            type: string
-            example: 65e4decdd286b30065d54af9
+            nullable: true
           photo:
             description: "Link to contact's photo"
-            type: binary
+            type: string
+            format: binary
+            nullable: true
 responses:
   '200':
     description: 'Patch contact'
