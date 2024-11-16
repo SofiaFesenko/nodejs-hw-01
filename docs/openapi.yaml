@@ -11,8 +11,8 @@ tags:
   - name: Contacts
     description: operations about contacts
 servers:
-  - url: http://localhost:3000
-  # - url: https://nodejs-hw-4szr.onrender.com
+  # - url: http://localhost:3000
+  - url: https://nodejs-hw-4szr.onrender.com
 paths:
   /contacts:
     get:
